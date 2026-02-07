@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Github Repositories</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            line-height: 1.5;
+        }
+
+        .header {
+            background-color: #161b22;
+            border-bottom: 1px solid #30363d;
+            padding: 16px 32px;
+        }
+
+        .header h1 {
+            color: #f0f6fc;
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px 32px;
+        }
+
+
+
+
+        .repos-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .repo-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .repo-card:hover {
+            border-color: #8b949e;
+        }
+
+        .repo-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .repo-icon {
+            width: 16px;
+            height: 16px;
+            fill: #8b949e;
+        }
+
+        .repo-name {
+            color: #58a6ff;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .repo-name:hover {
+            text-decoration: underline;
+        }
+
+
+        .repo-description {
+            color: #8b949e;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+
+            .header {
+                padding: 16px;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>GitHub Repositories</h1>
+    </div>
+
+    <div class="container">
+        <div class="repos-grid" id="reposGrid">
+            <!-- Repositories will be dynamically added here -->
+        </div>
+    </div>
+
+    <script>
+        // আপনার repositories এর ডেটা এখানে যোগ করুন
+        const repositories = [
+            {
+                name: "physflow",
+                url: "https://physarif.github.com/physflow",
+                description: "stackoverflow এর মতো প্রশ্নোত্তর সাইট তৈরি",
+                language: "JavaScript",
+                languageColor: "#f1e05a",
+                stars: 42,
+                forks: 12,
+                visibility: "public",
+                isStarred: true
+            },
+            {
+                name: "pipilika",
+                url: "https://physarif.github.com/pipilika",
+                description: "twitter এর মতো সোশ্যাল সাইট ডিজাইন",
+                language: "Python",
+                languageColor: "#3572A5",
+                stars: 28,
+                forks: 8,
+                visibility: "public",
+                isStarred: false
+            },
+            {
+                name: "react-dashboard",
+                url: "https://github.com/username/react-dashboard",
+                description: "React এবং Material-UI দিয়ে তৈরি ড্যাশবোর্ড",
+                language: "TypeScript",
+                languageColor: "#2b7489",
+                stars: 156,
+                forks: 34,
+                visibility: "public",
+                isStarred: true
+            },
+            {
+                name: "personal-website",
+                url: "https://github.com/username/personal-website",
+                description: "আমার ব্যক্তিগত পোর্টফোলিও ওয়েবসাইট",
+                language: "HTML",
+                languageColor: "#e34c26",
+                stars: 15,
+                forks: 3,
+                visibility: "public",
+                isStarred: false
+            },
+            {
+                name: "secret-project",
+                url: "https://github.com/username/secret-project",
+                description: "একটি প্রাইভেট প্রজেক্ট",
+                language: "Java",
+                languageColor: "#b07219",
+                stars: 5,
+                forks: 1,
+                visibility: "private",
+                isStarred: false
+            }
+        ];
+
+        let searchQuery = '';
+
+        function renderRepos(repos) {
+            const grid = document.getElementById('reposGrid');
+            grid.innerHTML = '';
+
+            if (repos.length === 0) {
+                grid.innerHTML = '<p style="color: #8b949e; text-align: center; padding: 40px;">কোনো রিপোজিটরি পাওয়া যায়নি</p>';
+                return;
+            }
+
+            repos.forEach(repo => {
+                const repoCard = document.createElement('div');
+                repoCard.className = 'repo-card';
+                repoCard.innerHTML = `
+                    <div class="repo-header">
+                        <svg class="repo-icon" viewBox="0 0 16 16" version="1.1" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"></path>
+                        </svg>
+                        <a href="${repo.url}" class="repo-name" target="_blank">${repo.name}</a>
+                    </div>
+                    ${repo.description ? `<p class="repo-description">${repo.description}</p>` : ''}
+                `;
+                grid.appendChild(repoCard);
+            });
+        }
+
+        // Initialize
+        renderRepos(repositories);
+    </script>
+</body>
+</html>
