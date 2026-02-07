@@ -1,2 +1,1 @@
-# pipilika
-twitter style social site design
+# My Repository List
