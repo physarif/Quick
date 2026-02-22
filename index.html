@@ -35,7 +35,6 @@
       overflow-x: hidden;
     }
 
-    /* Ambient glow */
     body::before {
       content: '';
       position: fixed;
@@ -83,6 +82,33 @@
       color: var(--accent2);
       text-decoration: none;
     }
+    nav .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* LIVE CLOCK */
+    .live-clock {
+      font-family: 'Sora', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1px;
+    }
+    .live-clock .clock-time {
+      font-size: 0.75rem;
+      color: var(--muted2);
+    }
+    .live-clock .clock-date {
+      font-size: 0.62rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
     nav .dot {
       width: 8px; height: 8px;
       border-radius: 50%;
@@ -135,23 +161,12 @@
       letter-spacing: 0.06em;
     }
 
-    .bio-text {
-      font-size: 1rem;
-      font-weight: 300;
-      line-height: 1.8;
-      color: var(--muted2);
-      margin-bottom: 28px;
-    }
-    .bio-text strong {
-      color: var(--text);
-      font-weight: 500;
-    }
-
     /* Social chips */
     .socials {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+      margin-top: 28px;
     }
     .chip {
       display: inline-flex;
@@ -175,6 +190,65 @@
       color: var(--accent2);
       background: rgba(108,99,255,0.08);
       transform: translateY(-1px);
+    }
+
+    /* BIO with typing effect */
+    .bio-text {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--muted2);
+      margin-bottom: 28px;
+      min-height: 5.4em;
+    }
+    .bio-text strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+    .bio-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--accent2);
+      vertical-align: text-bottom;
+      margin-left: 2px;
+      border-radius: 1px;
+      animation: blink 0.9s step-end infinite;
+    }
+    .bio-cursor.hidden { display: none; }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    /* Footer social icons */
+    .footer-socials {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .social-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .social-icon svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .social-icon:hover {
+      border-color: var(--accent);
+      color: var(--accent2);
+      background: rgba(108,99,255,0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(108,99,255,0.15);
     }
 
     /* DIVIDER */
@@ -204,8 +278,8 @@
     .projects {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-bottom: 56px;
+      gap: 10px;
+      margin-bottom: 48px;
       animation: fadeUp 0.7s 0.3s ease both;
     }
 
@@ -214,8 +288,8 @@
       text-decoration: none;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 22px 22px 18px;
+      border-radius: 14px;
+      padding: 16px 20px;
       transition: border-color 0.25s, background 0.25s, transform 0.2s, box-shadow 0.25s;
       position: relative;
       overflow: hidden;
@@ -227,28 +301,41 @@
       background: linear-gradient(135deg, rgba(108,99,255,0.06) 0%, transparent 60%);
       opacity: 0;
       transition: opacity 0.3s;
-      border-radius: 16px;
+      border-radius: 14px;
     }
     .card:hover {
       border-color: var(--accent);
       background: var(--surface2);
       transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(108,99,255,0.12);
+      box-shadow: 0 8px 28px rgba(108,99,255,0.12);
     }
     .card:hover::before { opacity: 1; }
 
-    .card-top {
+    .card-row {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 10px;
+    }
+    .card-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .card-name {
       font-family: 'Sora', sans-serif;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
       color: var(--text);
+    }
+    .card-arrow {
+      color: var(--muted);
+      flex-shrink: 0;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .card:hover .card-arrow {
+      color: var(--accent2);
+      transform: translateX(3px);
     }
     .card-tag {
       font-family: 'Sora', sans-serif;
@@ -263,33 +350,6 @@
     .tag-ecom   { background: rgba(251,191,36,0.12); color: #fbbf24; }
     .tag-comm   { background: rgba(34,211,163,0.1);  color: #22d3a3; }
     .tag-social { background: rgba(167,139,250,0.12); color: var(--accent2); }
-
-    .card-desc {
-      font-size: 0.9rem;
-      font-weight: 300;
-      line-height: 1.7;
-      color: var(--muted2);
-    }
-
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      margin-top: 14px;
-    }
-    .card-link {
-      font-family: 'Sora', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      color: var(--accent2);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      opacity: 0.7;
-      transition: opacity 0.2s, gap 0.2s;
-    }
-    .card:hover .card-link { opacity: 1; gap: 8px; }
 
     /* FOOTER */
     footer {
@@ -311,6 +371,7 @@
       .avatar { width: 60px; height: 60px; }
       .avatar-info h1 { font-size: 1.2rem; }
       .card { padding: 18px 16px 14px; }
+      .live-clock .clock-time { display: none; }
     }
   </style>
 </head>
@@ -320,7 +381,13 @@
   <nav>
     <div class="inner">
       <a href="https://physarif.github.io" target="_blank" class="logo">@physarif</a>
-      <div class="dot" title="Available"></div>
+      <div class="nav-right">
+        <div class="live-clock">
+          <span class="clock-time" id="clockTime">--:--:--</span>
+          <span class="clock-date" id="clockDate">---</span>
+        </div>
+        <div class="dot" title="Available"></div>
+      </div>
     </div>
   </nav>
 
@@ -340,9 +407,7 @@
         </div>
       </div>
 
-      <p class="bio-text">
-        আমি আরিফ, পদার্থবিজ্ঞানে অনার্স করছি। তবে কোডিং করতে ও নতুন নতুন ওয়েব প্রজেক্ট তৈরি করতে ভালোবাসি। কাজের ফাঁকে টেকনোলজির সাথে সবসময় আপডেট থাকার চেষ্টা করি।
-      </p>
+      <p class="bio-text" id="bioText"><span class="bio-cursor" id="bioCursor"></span></p>
 
       <div class="socials">
         <a href="https://www.facebook.com/share/physarif" target="_blank" class="chip">
@@ -362,6 +427,7 @@
           Blogger
         </a>
       </div>
+
     </section>
 
     <!-- DIVIDER -->
@@ -373,50 +439,32 @@
     <div class="projects">
 
       <a href="https://sonalishop.netlify.app" target="_blank" class="card">
-        <div class="card-top">
-          <span class="card-name">sonalishop</span>
-          <span class="card-tag tag-ecom">E-Commerce</span>
-        </div>
-        <p class="card-desc">
-          একটি পূর্ণাঙ্গ ই-কমার্স সাইট — পণ্য তালিকা, কার্ট সিস্টেম ও স্মুথ ইউজার এক্সপেরিয়েন্স সহ অনলাইন শপিং প্ল্যাটফর্ম।
-        </p>
-        <div class="card-footer">
-          <span class="card-link">
-            Visit site
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </span>
+        <div class="card-row">
+          <div class="card-left">
+            <span class="card-name">sonalishop</span>
+            <span class="card-tag tag-ecom">E-Commerce</span>
+          </div>
+          <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
       </a>
 
       <a href="https://physflow.netlify.app" target="_blank" class="card">
-        <div class="card-top">
-          <span class="card-name">physflow</span>
-          <span class="card-tag tag-comm">Community</span>
-        </div>
-        <p class="card-desc">
-          Reddit-এর অনুপ্রেরণায় তৈরি একটি কমিউনিটি প্ল্যাটফর্ম — থ্রেড, আলোচনা ও ভোটিং সিস্টেম সহ সামাজিক ডিসকোর্স স্পেস।
-        </p>
-        <div class="card-footer">
-          <span class="card-link">
-            Visit site
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </span>
+        <div class="card-row">
+          <div class="card-left">
+            <span class="card-name">physflow</span>
+            <span class="card-tag tag-comm">Community</span>
+          </div>
+          <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
       </a>
 
       <a href="https://shonjog.netlify.app/" target="_blank" class="card">
-        <div class="card-top">
-          <span class="card-name">shonjog</span>
-          <span class="card-tag tag-social">Social</span>
-        </div>
-        <p class="card-desc">
-          Twitter-এর ক্লিন UI দেখে অনুপ্রাণিত হয়ে নিজে একটি মিনিমাল সোশ্যাল মিডিয়া সাইট বানানোর চেষ্টা — ফিড, পোস্ট ও প্রোফাইল সহ।
-        </p>
-        <div class="card-footer">
-          <span class="card-link">
-            Visit site
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </span>
+        <div class="card-row">
+          <div class="card-left">
+            <span class="card-name">shonjog</span>
+            <span class="card-tag tag-social">Social</span>
+          </div>
+          <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
       </a>
 
@@ -434,7 +482,102 @@
   </div>
 
   <script>
+    /* ── Year ── */
     document.getElementById('yr').textContent = new Date().getFullYear();
+
+    /* ── Live Clock ── */
+    const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('clockTime').textContent = `${h}:${m}:${s}`;
+      const day = days[now.getDay()];
+      const date = now.getDate();
+      const month = months[now.getMonth()];
+      document.getElementById('clockDate').textContent = `${day}, ${date} ${month}`;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    /* ── Typing Effect ── */
+    // The full bio text with HTML bold tags represented as segments
+    // We'll build the text node by node to support <strong> tags
+    const bioSegments = [
+      { text: 'আমি আরিফ, ', strong: false },
+      { text: 'পদার্থবিজ্ঞানে', strong: true },
+      { text: ' অনার্স করছি। তবে ', strong: false },
+      { text: 'কোডিং', strong: true },
+      { text: ' করতে ও নতুন নতুন ওয়েব প্রজেক্ট তৈরি করতে ভালোবাসি। কাজের ফাঁকে ', strong: false },
+      { text: 'টেকনোলজির', strong: true },
+      { text: ' সাথে সবসময় আপডেট থাকার চেষ্টা করি।', strong: false },
+    ];
+
+    const bioContainer = document.getElementById('bioText');
+    const cursor = document.getElementById('bioCursor');
+
+    // Flatten into char list with strong flag
+    const chars = [];
+    for (const seg of bioSegments) {
+      for (const ch of [...seg.text]) { // spread for Unicode safety
+        chars.push({ ch, strong: seg.strong });
+      }
+    }
+
+    let charIndex = 0;
+    let currentNode = null;
+    let currentStrong = null; // the <strong> element being built, or null
+
+    function typeNext() {
+      if (charIndex >= chars.length) {
+        // Done — keep cursor blinking for a beat, then hide it
+        setTimeout(() => cursor.classList.add('hidden'), 1800);
+        return;
+      }
+
+      const { ch, strong } = chars[charIndex];
+
+      if (strong) {
+        // Need a <strong> node
+        if (!currentStrong) {
+          currentStrong = document.createElement('strong');
+          // Insert before cursor
+          bioContainer.insertBefore(currentStrong, cursor);
+        }
+        currentStrong.textContent += ch;
+      } else {
+        // Plain text
+        currentStrong = null; // close any open strong
+        if (!currentNode || currentNode.nodeType !== Node.TEXT_NODE) {
+          currentNode = document.createTextNode('');
+          bioContainer.insertBefore(currentNode, cursor);
+        }
+        currentNode.textContent += ch;
+      }
+
+      // If switching from strong back to text or vice versa, reset nodes
+      const nextItem = chars[charIndex + 1];
+      if (nextItem && nextItem.strong !== strong) {
+        currentNode = null;
+        if (!nextItem.strong) currentStrong = null;
+      }
+
+      charIndex++;
+
+      // Variable typing speed: slower for spaces & punctuation, faster otherwise
+      const delay = /[\s।,।]/.test(ch)
+        ? 55 + Math.random() * 30
+        : /[।!?]/.test(ch)
+        ? 120 + Math.random() * 60
+        : 28 + Math.random() * 22;
+
+      setTimeout(typeNext, delay);
+    }
+
+    // Start after page load animation settles
+    setTimeout(typeNext, 900);
   </script>
 </body>
 </html>
