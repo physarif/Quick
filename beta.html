@@ -73,9 +73,9 @@
       position:fixed; inset:0; z-index:10000;
       background:var(--bg);
       display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
-      transition:opacity .5s, visibility .5s;
+      transition:opacity .5s ease, visibility .5s ease;
+      opacity:1; visibility:visible;
     }
-    #splash.hidden { opacity:0; visibility:hidden; }
     .splash-logo {
       font-family:'Sora',sans-serif; font-size:1.6rem; font-weight:700;
       color:var(--accent2); letter-spacing:.1em;
@@ -812,13 +812,13 @@
 /* ══════════════════════════════════════
    SPLASH
 ══════════════════════════════════════ */
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('splash').classList.add('hidden');
-    // trigger reveals after splash
-    checkReveal();
-  }, 1600);
-});
+// Splash: pure CSS timer, no event dependency
+const splash = document.getElementById('splash');
+setTimeout(() => {
+  splash.style.opacity = '0';
+  splash.style.visibility = 'hidden';
+  setTimeout(checkReveal, 100);
+}, 1600);
 
 /* ══════════════════════════════════════
    CUSTOM CURSOR
