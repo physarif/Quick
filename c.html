@@ -1,179 +1,251 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Radio Stream</title>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #0f172a;
-            --glass: rgba(255, 255, 255, 0.05);
-            --accent: #6366f1;
-            --text: #f8fafc;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Radio - @physarif</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #08090a;
+      --surface: #111214;
+      --surface2: #18191d;
+      --border: #1f2025;
+      --border2: #2a2b32;
+      --text: #f0f0f0;
+      --muted: #6b6d78;
+      --muted2: #9a9daa;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+    }
 
-        body {
-            font-family: 'Sora', 'Noto Sans Bengali', sans-serif;
-            background: var(--bg);
-            background: radial-gradient(circle at top right, #1e1b4b, #0f172a);
-            color: var(--text);
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
+    body {
+      font-family: 'Noto Sans Bengali', 'Sora', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-        /* ── RADIO CARD ── */
-        .radio-container {
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 32px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.8s ease-out;
-        }
+    .wrap {
+      flex: 1;
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 20px;
+      width: 100%;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    /* ── HERO / PROFILE ── */
+    .hero {
+      padding: 56px 0 32px;
+      text-align: center;
+    }
 
-        .station-logo {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(45deg, var(--accent), #a855f7);
-            margin: 0 auto 24px;
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
-            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
-        }
+    .avatar-wrap {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 16px;
+    }
 
-        h1 { font-size: 1.5rem; margin-bottom: 8px; }
-        p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 30px; }
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border2);
+      box-shadow: 0 0 0 4px rgba(108,99,255,0.15);
+    }
 
-        /* ── VISUALIZER ── */
-        .visualizer {
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 4px;
-            height: 40px;
-            margin-bottom: 30px;
-        }
+    h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
+    .handle { font-size: 0.8rem; color: var(--accent2); letter-spacing: 0.05em; }
 
-        .bar {
-            width: 4px;
-            background: var(--accent);
-            border-radius: 2px;
-            height: 4px;
-            transition: 0.3s;
-        }
+    /* ── RADIO GRID ── */
+    .radio-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* প্রতি লাইনে দুটি */
+      gap: 16px;
+      margin: 32px 0 48px;
+    }
 
-        .playing .bar {
-            animation: bounce 1s ease-in-out infinite;
-        }
+    .radio-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
 
-        @keyframes bounce {
-            0%, 100% { height: 10px; }
-            50% { height: 40px; }
-        }
+    .radio-card:hover {
+      border-color: var(--accent);
+      background: var(--surface2);
+      transform: translateY(-4px);
+    }
 
-        .bar:nth-child(2) { animation-delay: 0.1s; }
-        .bar:nth-child(3) { animation-delay: 0.2s; }
-        .bar:nth-child(4) { animation-delay: 0.3s; }
-        .bar:nth-child(5) { animation-delay: 0.4s; }
+    .radio-card.active {
+      border-color: var(--accent);
+      background: rgba(108, 99, 255, 0.05);
+      box-shadow: 0 8px 20px rgba(108, 99, 255, 0.15);
+    }
 
-        /* ── PLAYER CONTROL ── */
-        .play-btn {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            border: none;
-            background: var(--accent);
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
-        }
+    .radio-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+      display: block;
+    }
 
-        .play-btn:hover { transform: scale(1.1); background: #4f46e5; }
+    .radio-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      display: block;
+      margin-bottom: 8px;
+    }
 
-        .play-btn svg { width: 30px; height: 30px; fill: currentColor; }
+    /* ── EQUALIZER ── */
+    .eq {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 3px;
+      height: 16px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
 
-        .pause-icon { display: none; }
-        .playing .play-icon { display: none; }
-        .playing .pause-icon { display: block; }
+    .radio-card.active .eq { opacity: 1; }
 
-    </style>
+    .eq span {
+      width: 3px;
+      background: var(--accent2);
+      border-radius: 2px;
+      animation: bounce 0.6s ease-in-out infinite alternate;
+    }
+    .eq span:nth-child(2) { animation-delay: 0.1s; }
+    .eq span:nth-child(3) { animation-delay: 0.2s; }
+
+    @keyframes bounce {
+      from { height: 4px; }
+      to { height: 16px; }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      margin-top: auto;
+    }
+    .footer-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer p { font-size: 0.72rem; color: var(--muted); }
+    footer a { color: var(--accent2); text-decoration: none; }
+    .f-icon svg { width: 16px; height: 16px; fill: var(--muted2); }
+
+    @media (max-width: 480px) {
+      .radio-grid { gap: 12px; }
+      .radio-card { padding: 20px 12px; }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="radio-container" id="playerContainer">
-        <div class="station-logo">📻</div>
-        <h1 id="stationName">Lofi Radio</h1>
-        <p>Live Streaming Now</p>
+  <div class="wrap">
+    <header class="hero">
+      <div class="avatar-wrap">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjyfKicXQuTf1l8ZClxd1V3cwifSScZRbfXyGN3Cb8GEdR4n8tzfmRhmkeQ80Ies3e0lxlw4OAeAk4T2GrzqXaFBCWlI3sSg_B5vNXDKaPjy-gmEZi610nHiHUeb9Pn_PfWZg-7DryADuIQUOh8waz4N0jyjFzM9qM07TTvESiMj7sLOt8/s1600-rw/19058.png" alt="Arif" class="avatar">
+      </div>
+      <h1>আরিফ</h1>
+      <div class="handle">@physarif | Live Radio</div>
+    </header>
 
-        <div class="visualizer">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-        </div>
+    <div class="radio-grid">
+      
+      <div class="radio-card" onclick="playRadio('http://stream.zeno.fm/f0bfdk2w34zuv', this)">
+        <span class="radio-icon">🎵</span>
+        <span class="radio-name">Lofi Chill</span>
+        <div class="eq"><span></span><span></span><span></span></div>
+      </div>
 
-        <button class="play-btn" onclick="toggleRadio()">
-            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-        </button>
+      <div class="radio-card" onclick="playRadio('https://stream.zeno.fm/0r0xa792kwzuv', this)">
+        <span class="radio-icon">🎸</span>
+        <span class="radio-name">Acoustic</span>
+        <div class="eq"><span></span><span></span><span></span></div>
+      </div>
+
+      <div class="radio-card" onclick="playRadio('https://stream.zeno.fm/your_id_3', this)">
+        <span class="radio-icon">🎹</span>
+        <span class="radio-name">Piano Live</span>
+        <div class="eq"><span></span><span></span><span></span></div>
+      </div>
+
+      <div class="radio-card" onclick="playRadio('https://stream.zeno.fm/your_id_4', this)">
+        <span class="radio-icon">🌌</span>
+        <span class="radio-name">Ambient</span>
+        <div class="eq"><span></span><span></span><span></span></div>
+      </div>
+
     </div>
+  </div>
 
-    <audio id="radioAudio" src="http://stream.zeno.fm/f0bfdk2w34zuv" crossorigin="anonymous"></audio>
+  <footer>
+    <div class="footer-inner">
+      <p>crafted by <a href="#">@physarif</a></p>
+      <div class="f-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+      </div>
+    </div>
+  </footer>
 
-    <script>
-        const audio = document.getElementById('radioAudio');
-        const container = document.getElementById('playerContainer');
-        let isPlaying = false;
+  <audio id="mainAudio"></audio>
 
-        function toggleRadio() {
-            if (!isPlaying) {
-                // স্ট্রিমিং লিঙ্ক রিফ্রেশ করতে চাইলে নিচের লাইনটি ব্যবহার করা যায়
-                // audio.load(); 
-                audio.play().then(() => {
-                    isPlaying = true;
-                    container.classList.add('playing');
-                }).catch(e => console.error("Error playing radio"));
-            } else {
-                audio.pause();
-                isPlaying = false;
-                container.classList.remove('playing');
-            }
-        }
+  <script>
+    const audio = document.getElementById('mainAudio');
+    let currentCard = null;
 
-        // মিডিয়া কন্ট্রোল নোটিফিকেশন বার
-        if ('mediaSession' in navigator) {
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: 'Live Radio',
-                artist: 'physarif',
-                artwork: [{ src: 'https://via.placeholder.com/512', sizes: '512x512', type: 'image/png' }]
-            });
-            navigator.mediaSession.setActionHandler('play', toggleRadio);
-            navigator.mediaSession.setActionHandler('pause', toggleRadio);
-        }
-    </script>
+    function playRadio(url, card) {
+      if (currentCard === card) {
+        // দ্বিতীয়বার ক্লিক করলে পজ হবে
+        audio.pause();
+        card.classList.remove('active');
+        currentCard = null;
+        return;
+      }
+
+      // আগের কার্ড থেকে একটিভ ক্লাস সরানো
+      if (currentCard) currentCard.classList.remove('active');
+
+      // নতুন সোর্স সেট করা
+      audio.src = url;
+      audio.play();
+      card.classList.add('active');
+      currentCard = card;
+    }
+
+    // Media Session Support
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: 'Physarif Radio',
+        artist: 'Live Stream',
+        artwork: [{ src: 'https://via.placeholder.com/512', sizes: '512x512', type: 'image/png' }]
+      });
+    }
+  </script>
 </body>
 </html>
