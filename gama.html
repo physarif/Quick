@@ -102,9 +102,9 @@
     /* ── CANVAS STARS ── */
     #stars-canvas {
       position:fixed; inset:0; z-index:0; pointer-events:none;
-      opacity:.6; transition:opacity .3s;
+      opacity:.5; transition:opacity .3s;
     }
-    [data-theme="light"] #stars-canvas { opacity:.15; }
+    [data-theme="light"] #stars-canvas { opacity:.12; }
 
     /* ── AMBIENT GLOW ── */
     .glow-orb {
@@ -153,8 +153,8 @@
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(.85)} }
 
     /* ── SECTION REVEAL ── */
-    .reveal { opacity:0; transform:translateY(28px); transition:opacity .6s ease, transform .6s ease; }
-    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal { opacity:1; transform:none; }
+    
 
     /* ── HERO ── */
     .hero { padding:52px 0 44px; }
@@ -884,12 +884,7 @@ window.addEventListener('resize',()=>{ resize(); initStars(); });
 const bar=document.getElementById('progress-bar');
 const backTop=document.getElementById('back-top');
 
-function checkReveal(){
-  document.querySelectorAll('.reveal').forEach(el=>{
-    if(el.getBoundingClientRect().top < window.innerHeight*.92)
-      el.classList.add('visible');
-  });
-}
+function checkReveal(){ /* reveal handled by CSS */ }
 window.addEventListener('scroll',()=>{
   const scrolled=window.scrollY;
   const total=document.body.scrollHeight-window.innerHeight;
